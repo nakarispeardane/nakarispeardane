@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomb Generator</title>
+<style>
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #1c1a17;
+    color: #e8dfd0;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+    line-height: 1.6;
+  }
+  h1 {
+    text-align: center;
+    color: #d8b978;
+    letter-spacing: 1px;
+  }
+  button {
+    display: block;
+    margin: 30px auto;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    background: #d8b978;
+    color: #1c1a17;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  button:hover {
+    background: #eccf8f;
+  }
+  #result {
+    background: #262320;
+    border: 1px solid #4a4238;
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 100px;
+    white-space: pre-wrap;
+  }
+  #result p {
+    margin: 0 0 12px 0;
+  }
+  #result p:last-child {
+    margin-bottom: 0;
+  }
+  .placeholder {
+    color: #8a8070;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<h1>Tomb Generator</h1>
+<button id="generateBtn">Discover a Tomb</button>
+<div id="result"><p class="placeholder">Click the button to generate a tomb...</p></div>
+
+<script>
+function choice(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateTomb() {
+  const lines = [];
+
+  const size = choice(["small", "medium", "large"]);
+  const status = choice(["basic", "middle", "elaborate"]);
+
+  const where = choice([
+    'in a canyon', 'by a spring', 'by the gates of a city',
+    'underneath a temple', 'in a cave', 'on a mountain',
+    'overlooking the plains', 'behind a waterfall',
+    'under the floor of a house', 'by the sea', 'in a peat bog', 'in a mine',
+    'under a megalithic structure', 'under an artificial hill', 'in a cliff',
+    'in an orchard', 'outside ancient city walls', 'in a forest', 'in a lake',
+    'in an ancient granary'
+  ]);
+  const entrance = choice([
+    'well hidden', 'sealed by a rockfall', 'made to look like a door',
+    'very small', 'hidden behind a false entrance', 'ornate', 'underwater',
+    'marked with a cairn', 'unmarked', 'unmarked', 'just a regular door'
+  ]);
+
+  const animal = [
+    'lion', 'deer', 'hawk', 'horse', 'elephant', 'bear', 'bison', 'ibex',
+    'antelope', 'fox', 'giraffe', 'mammoth', 'tapir', 'duck', 'sheep', 'goat',
+    'bull', 'fish', 'tortoise', 'donkey', 'swan', 'camel', 'boar', 'badger',
+    'seal', 'jaguar', 'crocodile'
+  ];
+  const animalplural = [
+    'lions', 'deer', 'hawks', 'horses', 'dragonflies', 'bears', 'bison',
+    'antelope', 'foxes', 'giraffes', 'rodents', 'mammoths', 'tapirs', 'ducks',
+    'sheep', 'goats', 'bulls', 'fish', 'donkeys', 'swans', 'camels', 'boars',
+    'badgers', 'seals', 'jaguars', 'crocodiles'
+  ];
+  const bone = ['skull', 'ribcage', 'femur', 'clavicle', 'pelvis', 'spine', 'ulna', 'jaw'];
+  const bodypart = ['head', 'torso', 'hands', 'arms', 'shoulders', 'feet', 'eyes'];
+  const abstract = [
+    'lines', 'parallel lines', 'dots', 'broken lines', 'spirals', 'circles',
+    'crosshatched lines', 'concentric circles'
+  ];
+  const food = [
+    'wheat grains', 'apple seeds', 'olive pits', 'walnuts', 'saffron strands',
+    'petals', 'rice', 'maize', 'millet', 'salt', 'mushrooms',
+    'psychoactive substances', 'poppy seeds', 'barley', 'honey', 'wine',
+    'tobacco'
+  ];
+  const weapon = [
+    'dagger', 'sword', 'halberd', 'hunting knife', 'arrowhead', 'spear', 'axe',
+    'sceptre', 'bow'
+  ];
+  const jewelry = [
+    'a diadem', 'a necklace', 'a bracelet', 'a ring', 'an earring',
+    'an anklet', 'bracelets', 'rings', 'anklets', 'earrings', 'noserings'
+  ];
+  const garment = [
+    'a dress', 'a headdress', 'a tunic', 'shoes', 'leggings', 'socks',
+    'a shirt', 'a scarf', 'gloves', 'a cloak', 'a blindfold', 'a robe',
+    'sandals'
+  ];
+  const gift = [
+    'lyre', 'doll', 'goblet', 'cup', 'vase', 'helmet', 'comb', 'lamp', 'drum',
+    'flute', 'ocarina', 'rattle', 'rhyton', 'brooch', 'bridle', 'spoon',
+    'board game', 'plate', 'bowl', 'small bottle', 'bottle', 'jar',
+    'model boat', 'harp'
+  ];
+  const age = [
+    'a child', 'adolescent', 'a young adult', 'an adult', 'middle-aged',
+    'elderly', 'very elderly', 'a young adult', 'an adult', 'middle-aged',
+    'elderly', 'very elderly', 'elderly', 'very elderly'
+  ];
+  const urnmaterial = [
+    'baked clay', 'porcelain', 'iron', 'bronze', 'copper', 'ceramics',
+    'an unidentifiable material', 'glass', 'terracotta'
+  ];
+
+  let tombtype, numberburials;
+  if (size === "small") {
+    tombtype = choice(['urn', 'hole', 'pit']);
+    numberburials = choice(['one', 'one', 'two']);
+  } else if (size === "medium") {
+    tombtype = choice(['cist grave', 'passage tomb', 'chamber tomb', 'large urn']);
+    numberburials = choice(['one', 'one', 'two', 'two', 'three']);
+  } else {
+    tombtype = choice(['passage tomb', 'chamber tomb', 'ship burial']);
+    numberburials = choice([
+      'one', 'one', 'one', 'two', 'two', 'two', 'three', 'three', 'four', 'five'
+    ]);
+  }
+
+  let positions;
+  if (tombtype === "urn") {
+    positions = [
+      'is upside down', 'is curled up', 'is crouching', 'mostly burnt',
+      'slightly burnt', 'is completely disarticulated'
+    ];
+  } else {
+    positions = [
+      'is lying on its front', 'is lying on its back',
+      'is lying on its side', 'is curled up', 'has outstretched arms',
+      'is facing towards sunset', 'is facing towards sunrise',
+      'is facing the entrance'
+    ];
+  }
+
+  let bones, material, fabric, pigment;
+  if (status === "basic") {
+    bones = [
+      'completely burnt', 'disarticulated', 'healthy',
+      'showing signs of healed injuries',
+      'showing signs of unhealed injuries',
+      'worn down by hard labor', 'showing signs of childhood malnutrition',
+      'disarticulated', 'showing signs of stress', 'very big', 'very small',
+      'brown', 'black', 'showing signs of good nutrition'
+    ];
+    material = [
+      'animal bone', 'stone', 'copper', 'teeth', 'clay', 'snail shells',
+      'jet', 'agate', 'antler', 'crystal', 'feathers', 'flint'
+    ];
+    fabric = ['hide', 'furs', 'felt', 'leather', 'barkcloth', 'engraved leather'];
+    pigment = [
+      'red ochre', 'blue ultramarine', 'yellow ochre', 'black charcoal',
+      'white chalk', 'brown umber'
+    ];
+  } else if (status === "middle") {
+    bones = [
+      'completely burnt', 'healthy', 'showing signs of healed injuries',
+      'slightly burnt', 'wrapped in a shroud', 'slightly burnt',
+      'worn down by hard labor', 'showing signs of arthritis',
+      'disarticulated', 'very big', 'very small', 'brown', 'black',
+      'showing signs of good nutrition', 'disarticulated',
+      'showing signs of unhealed injuries'
+    ];
+    material = [
+      'animal bone', 'stone', 'porcelain', 'copper', 'tin', 'iron',
+      'seashells', 'silver', 'snail shells', 'obsidian', 'jet', 'seaglass',
+      'agate', 'carnelian', 'paper', 'antler', 'crystal', 'feathers', 'jade',
+      'pearl', 'lapis', 'bitumen', 'gold'
+    ];
+    fabric = [
+      'hide', 'furs', 'cotton', 'linen', 'barkcloth', 'wool', 'felt',
+      'leather', 'embroidered linen', 'embroidered wool', 'embroidered felt',
+      'dyed linen', 'dyed wool', 'dyed leather', 'dyed felt', 'barkcloth',
+      'wool woven with a pattern', 'linen woven in a pattern'
+    ];
+    pigment = [
+      'red ochre', 'yellow ochre', 'black charcoal', 'white chalk',
+      'brown umber', 'bright red cinnabar', 'dull green malachite',
+      'blue ultramarine'
+    ];
+  } else {
+    bones = [
+      'slightly burnt', 'healthy', 'gilded',
+      'showing signs of healed injuries', 'showing signs of malnutrition',
+      'strong', 'showing signs of arthritis', 'showing signs of stress',
+      'very big', 'very small', 'brown', 'black',
+      'showing signs of good nutrition', 'disarticulated',
+      'mixed with animal bones'
+    ];
+    material = [
+      'animal bone', 'porcelain', 'copper', 'tin', 'iron', 'seashells',
+      'amber', 'gold', 'bronze', 'silver', 'baked clay', 'jet', 'turquoise',
+      'obsidian', 'seaglass', 'agate', 'carnelian', 'paper', 'antler',
+      'crystal', 'feathers', 'jade', 'pearl', 'carnelian', 'bitumen'
+    ];
+    fabric = [
+      'hide', 'furs', 'cotton', 'linen', 'barkcloth', 'wool', 'silk',
+      'gossamer', 'leather', 'embroidered linen', 'embroidered wool',
+      'embroidered felt', 'dyed linen', 'dyed wool', 'dyed leather',
+      'dyed felt', 'dyed silk'
+    ];
+    pigment = [
+      'red ochre', 'yellow ochre', 'black charcoal', 'white chalk',
+      'brown umber', 'bright red vermilion', 'deep blue azurite',
+      'bright red cinnabar', 'dull green malachite', 'blue ultramarine'
+    ];
+  }
+
+  const intros = [
+    "You follow ancient texts mentioning a burial " + where + ".",
+    "While on a hike, you stumble upon a burial " + where + ".",
+    "During an excavation " + where + ", you discover a burial.",
+    "An earthquake has exposed a burial " + where + "."
+  ];
+
+  const tombintro = [
+    "It resembles a " + tombtype + ".",
+    "There is an undisturbed " + tombtype + ".",
+    "It resembles a " + tombtype + ". There is a " + choice(animal) + " " + choice(bone) + " nearby.",
+    "There is an undisturbed " + tombtype + ". There is a " + choice(animal) + " " + choice(bone) + " nearby.",
+    "It resembles a " + tombtype + ". There is a natural formation resembling a " + choice(animal) + " nearby.",
+    "There is an undisturbed " + tombtype + ". There is a natural formation resembling a " + choice(animal) + " nearby.",
+    "It resembles a " + tombtype + ". There is graffiti nearby.",
+    "It resembles a " + tombtype + ". There is pottery nearby.",
+    "It resembles a " + tombtype + ".",
+    "The " + tombtype + " has been disturbed by grave robbers."
+  ];
+
+  const tombdecor = [
+    "A " + choice(animal) + " was sacrificed here, but it is much younger than the rest of the tomb.",
+    "Figurines made of " + choice(urnmaterial) + " have been deposited here.",
+    "There is a large statue made of " + choice(material) + " depicting a " + choice(animal) + ".",
+    "There is damage caused by " + choice(animalplural) + ".",
+    "There are traces of recent " + choice(animal) + " activity.",
+    "There is a jar with traces of " + choice(food) + ".",
+    "There are " + choice(['two', 'three', 'four', 'five']) + " " + choice(animal) + " skeletons here.",
+    "The tomb resembles a house.",
+    "The tomb resembles a garden.",
+    "The tomb resembles a bedroom.",
+    "There is an altar.",
+    "There are many items made of " + choice(material) + ".",
+    "There are many items decorated with " + choice(material) + ".",
+    "There is a chariot here.",
+    "A " + choice(animal) + " was sacrificed here."
+  ];
+
+  const smalltombdecor = [
+    "The burial is sprinkled with " + choice(food) + ".",
+    "There is a bowl with offerings of " + choice(food) + ".",
+    "The burial is sprinkled with " + choice(pigment) + ".",
+    "The burial is sprinkled with " + choice(pigment) + " and " + choice(food) + ".",
+    "There is a tiny statue made of " + choice(material) + " depicting a " + choice(animal) + "."
+  ];
+
+  const pottery = [
+    "The urn is made of " + choice(urnmaterial) + ". There is a " + choice(animal) + " painted on it.",
+    "The urn is made of " + choice(urnmaterial) + " and decorated with grooves.",
+    "The urn was made of " + choice(urnmaterial) + ". It is broken.",
+    "The urn is made of " + choice(urnmaterial) + ". There are " + choice(abstract) + " painted on it.",
+    "The urn is painted with " + choice(pigment) + ".",
+    "The urn is made of " + choice(urnmaterial) + " and decorated with " + choice(material) + ".",
+    "The urn is made of " + choice(urnmaterial) + " and decorated with " + choice(animalplural) + ".",
+    "The urn also contains the " + choice(bone) + " of a " + choice(animal) + ".",
+    "The urn also contains " + choice(food) + ".",
+    "The urn is shaped like a house.",
+    "The urn is shaped like a " + choice(animal) + "."
+  ];
+
+  const walls = [
+    "The walls are decorated with pictures of " + choice(animalplural) + ".",
+    "The walls are covered with torch marks.",
+    "The walls are decorated with pictures of " + choice(animalplural) + " and " + choice(animalplural) + ".",
+    "The walls are decorated with pictures of " + choice(animalplural) + " and " + choice(abstract) + ".",
+    "The walls are decorated with " + choice(abstract) + ".",
+    "There is a painting of a person with the " + choice(bodypart) + " of a " + choice(animal) + ".",
+    "There is a painting of a person holding a " + choice(weapon) + ".",
+    "There is a painting of a dead " + choice(animal) + ".",
+    "There is " + choice(pigment) + " on the walls.",
+    "The echoes here are very loud.",
+    "There is an opening to the sky.",
+    "There are patterns of " + choice(abstract) + " which resemble constellations."
+  ];
+
+  function makeBody() {
+    const who = choice(["man", "woman", "person"]);
+    const pronoun = who === "man" ? "he" : who === "woman" ? "she" : "they";
+    const wasWere = pronoun === "they" ? "were" : "was";
+    const detail = choice(["position", "bones", "mummified", "bones"]);
+    let line = "A " + who + " is buried here. When " + pronoun + " died " + pronoun + " " + wasWere + " " + choice(age) + ". ";
+    if (detail === "position") {
+      line += "The body " + choice(positions) + ".";
+    } else if (detail === "mummified") {
+      line += "The body is mummified.";
+    } else {
+      line += "The bones are " + choice(bones) + ".";
+    }
+    return line;
+  }
+
+  const deaths = [
+    "There is obvious blunt force trauma to the " + choice(bone) + ".",
+    "There is no obvious cause of death.",
+    "There are injuries to the " + choice(bone) + " that seem not to have fully healed.",
+    "There are signs of disease.",
+    "There is obvious blunt force trauma to the " + choice(bodypart) + ".",
+    "There is a " + choice(weapon) + " embedded in the " + choice(bodypart) + ".",
+    "The " + choice(bone) + " is missing.",
+    "There is a boulder on the body's " + choice(bodypart) + "."
+  ];
+
+  const clothing = [
+    "The body is wrapped in a shroud of " + choice(fabric) + ".",
+    "The body is wearing " + choice(jewelry) + " made of " + choice(material) + ".",
+    "The body is wearing " + choice(jewelry) + " decorated with " + choice(material) + ".",
+    "The body is dressed to look like a " + choice(animal) + ".",
+    "The body is wearing an amulet depicting a " + choice(animal) + " made of " + choice(material) + ".",
+    "There is " + choice(pigment) + " on the " + choice(bodypart) + ".",
+    "The body is dressed in " + choice(fabric) + ".",
+    "The body is wearing rings made of " + choice(material) + ".",
+    "The body is wearing armour made of " + choice(material) + ".",
+    "The body is wearing " + choice(garment) + " made of " + choice(fabric) + ".",
+    "The body is wearing " + choice(garment) + " decorated with " + choice(material) + ".",
+    "The body is wearing " + choice(garment) + " and " + choice(jewelry) + ".",
+    "The body is wearing " + choice(garment) + " and " + choice(garment) + ".",
+    "The body is wearing " + choice(jewelry) + " and " + choice(jewelry) + ".",
+    "The body is wearing a death mask made of " + choice(urnmaterial) + ".",
+    "The body is wearing a death mask."
+  ];
+
+  const extrabits = [
+    "The body is holding an amulet made of " + choice(urnmaterial) + " decorated with " + choice(abstract) + ".",
+    "There is a statue of a person with the " + choice(bodypart) + " of a " + choice(animal) + ".",
+    "There are pebbles painted with " + choice(pigment) + " over the body's " + choice(bodypart) + ".",
+    "The body is holding a " + choice(weapon) + " made of " + choice(urnmaterial) + " decorated with " + choice(abstract) + ".",
+    "The person ate " + choice(food) + " shortly before death.",
+    "The body is inside a sarcophagus decorated with " + choice(urnmaterial) + ".",
+    "The head is resting on a pillow made of " + choice(fabric) + ".",
+    "The body is holding a " + choice(gift) + " made of " + choice(urnmaterial) + " decorated with " + choice(abstract) + ".",
+    "The teeth are very decayed.",
+    "The body may have been damaged by " + choice(animalplural) + ".",
+    "The bones show evidence of riding an animal.",
+    "The left shoulder shows more wear than the right.",
+    "The right shoulder shows more wear than the left.",
+    "This person had a diet high in protein.",
+    "One leg is shorter than the other.",
+    "There is a lot of wear on this person's " + choice(bodypart) + ".",
+    "The " + choice(bone) + " is fractured.",
+    "The hands are restrained.",
+    "This person has undergone trepanning.",
+    "This person died while pregnant.",
+    "The teeth show evidence of toothpick use.",
+    "Several teeth are missing."
+  ];
+
+  const ages = [
+    "It looks very, very old.",
+    "It looks like it predates the settlements in the region.",
+    "It appears to have been made after the nearby settlement was abandoned.",
+    "It looks ancient.",
+    "It seems to have been made in a period of rich trade.",
+    "It seems to be fairly recent.",
+    "It was probably made 10,000 years ago.",
+    "It was probably made in the Bronze Age.",
+    "It was probably made in the Palaeolithic.",
+    "It was probably made in the Neolithic.",
+    "It was probably made in the Iron Age.",
+    "It was probably made in the last thousand years.",
+    "It looks like it's imitating an older style."
+  ];
+
+  const richgifts = [
+    "There is a " + choice(weapon) + " made of " + choice(material) + ".",
+    "There is a " + choice(weapon) + " decorated with " + choice(material) + ".",
+    "There is a " + choice(gift) + " made of " + choice(material) + ".",
+    "There is a " + choice(gift) + " decorated with " + choice(material) + ".",
+    "There is a " + choice(gift) + " with the image of a " + choice(animal) + ".",
+    "There is a " + choice(weapon) + " with the image of a " + choice(animal) + ".",
+    "There is a " + choice(gift) + " sprinkled with " + choice(pigment) + ".",
+    ""
+  ];
+
+  // --- Build the description ---
+  lines.push(choice(intros));
+  lines.push(choice(tombintro));
+  lines.push(choice(ages));
+
+  if (tombtype === "passage tomb" || tombtype === "chamber tomb") {
+    lines.push("The entrance is " + entrance + ".");
+  }
+
+  if (tombtype === "urn" || tombtype === "large urn") {
+    lines.push(choice(pottery));
+  }
+  if (tombtype === "passage tomb" || tombtype === "chamber tomb" || tombtype === "cist grave") {
+    lines.push(choice(walls));
+  }
+
+  lines.push("");
+
+  if (numberburials === "one") {
+    lines.push("There is one person buried here.");
+  } else {
+    lines.push("There are " + numberburials + " people buried here.");
+  }
+
+  if (status === "elaborate") {
+    lines.push(choice(richgifts));
+    lines.push(choice(richgifts));
+  } else if (status === "middle") {
+    lines.push(choice(richgifts));
+  }
+
+  if (size === "large") {
+    lines.push(choice(tombdecor));
+  } else {
+    lines.push(choice(smalltombdecor));
+  }
+
+  lines.push("");
+
+  const burialCount = { one: 1, two: 2, three: 3, four: 4, five: 5 }[numberburials];
+  for (let i = 0; i < burialCount; i++) {
+    lines.push(makeBody());
+    lines.push(choice(deaths));
+    lines.push(choice(clothing));
+    lines.push(choice(extrabits));
+    lines.push("");
+  }
+
+  return lines.filter(l => l !== "");
+}
+
+document.getElementById('generateBtn').addEventListener('click', function() {
+  const result = generateTomb();
+  const container = document.getElementById('result');
+  container.innerHTML = '';
+  result.forEach(line => {
+    const p = document.createElement('p');
+    p.textContent = line;
+    container.appendChild(p);
+  });
+});
+</script>
+
+</body>
+</html>
